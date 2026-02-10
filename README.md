@@ -9,7 +9,7 @@
 [![React](https://img.shields.io/badge/React-18+-61DAFB?logo=react)](https://reactjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-3178C6?logo=typescript)](https://www.typescriptlang.org)
 
-[Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [API Documentation](#-api-documentation) • [Contributing](#-contributing)
+[Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Interview Guide](#-interview--presentation-materials) • [Contributing](#-contributing)
 
 </div>
 
@@ -222,6 +222,56 @@ Scholarweave/
 ├── LICENSE                      # GPL v3 License
 └── README.md                    # This file
 ```
+
+---
+
+## 📚 Interview & Presentation Materials
+
+### For Developers & Job Seekers
+
+If you're presenting ScholarWeave in an interview or explaining the project to others, we've prepared comprehensive materials:
+
+#### 📖 [INTERVIEW_GUIDE.md](./INTERVIEW_GUIDE.md)
+**Comprehensive 50+ page interview preparation guide** covering:
+- 30-second elevator pitch
+- Problem statement & motivation
+- Technical architecture deep dive
+- Semantic knowledge graph implementation details
+- D3.js visualization techniques
+- Common interview questions with STAR-method answers
+- Technical challenges and solutions
+- Performance optimization strategies
+- Code samples and algorithm explanations
+
+#### 🎯 [INTERVIEW_QUICK_REFERENCE.md](./INTERVIEW_QUICK_REFERENCE.md)
+**Quick reference cheat sheet** for rapid review:
+- Tech stack summary with "why we chose it"
+- Key features bullet points
+- Impressive metrics to mention
+- Common questions with quick answers
+- Demo flow structure
+- Technical keywords to use
+- What NOT to say
+- Pre-interview checklist
+
+#### 💡 How to Use These Materials
+
+1. **First Time:** Read the full [INTERVIEW_GUIDE.md](./INTERVIEW_GUIDE.md) thoroughly
+2. **Before Interview:** Review [INTERVIEW_QUICK_REFERENCE.md](./INTERVIEW_QUICK_REFERENCE.md)
+3. **During Demo:** Follow the 5-minute demo structure
+4. **Deep Technical Questions:** Reference specific sections in the full guide
+
+#### 📊 Key Talking Points
+
+**Assuming completed semantic knowledge graph & D3.js visualization:**
+- Interactive force-directed graph layout with 150M+ papers
+- Citation network visualization showing paper relationships
+- Author collaboration networks
+- Real-time graph updates with physics simulation
+- Performance optimization (10K nodes → 50 nodes displayed)
+- Graph algorithms: PageRank, BFS/DFS, community detection
+
+---
 
 ## 🤝 Contributing
 
