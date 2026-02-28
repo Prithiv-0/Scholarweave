@@ -100,6 +100,11 @@ func setupRoutes(app *fiber.App) {
 		return openAlexHandler.GetPaperByID(c)
 	})
 
+	// Get paper RDF
+	v1.Get("/papers/:id/rdf", func(c fiber.Ctx) error {
+		return openAlexHandler.GetPaperRDF(c)
+	})
+
 	// Handle 404 Not Found
 	app.Use(func(c fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

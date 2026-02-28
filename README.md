@@ -43,6 +43,7 @@ The platform integrates with the [OpenAlex](https://openalex.org) API, a free an
 - **Fast Performance**: Built with Vite for lightning-fast development and production builds
 - **Modern UI**: Clean, intuitive interface powered by Tailwind CSS
 - **Direct Paper Access**: Navigate to detailed paper views with full information
+- **Semantic Web Support**: JSON-LD structured data and RDF/XML export for machine readability
 
 ### Upcoming Features
 

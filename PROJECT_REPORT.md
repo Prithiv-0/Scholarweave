@@ -295,6 +295,7 @@ interface Author {
    - ✅ Abstract reconstruction from `abstract_inverted_index` (when `abstract` field is empty)
    - ✅ URL decoding and ID extraction (handles full OpenAlex URLs)
    - ✅ Request logging with timestamps and latency
+   - ✅ **Semantic Web**: RDF/XML export endpoint for machine-readable metadata
 
 2. **Frontend UI** (React + Vite + Tailwind)
    - ✅ Search page with live results
@@ -306,6 +307,7 @@ interface Author {
    - ✅ Loading states with skeleton animations
    - ✅ React Router for SPA navigation
    - ✅ TypeScript for type safety
+   - ✅ **SEO/Semantic**: JSON-LD structured data for Google Scholar indexing
 
 3. **Data Processing**
    - ✅ Normalization of OpenAlex responses into internal `Paper` shape

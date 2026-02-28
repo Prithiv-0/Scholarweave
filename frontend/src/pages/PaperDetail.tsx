@@ -38,6 +38,22 @@ const PaperDetail: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-8">
+      {/* JSON-LD Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ScholarlyArticle",
+          "headline": paper.title,
+          "abstract": paper.abstract,
+          "author": paper.authors?.map(opt => ({
+            "@type": "Person",
+            "name": opt.name
+          })),
+          "datePublished": "2025", // Placeholder, OpenAlex provides year
+          "sameAs": paper.doi ? `https://doi.org/${paper.doi}` : undefined
+        })}
+      </script>
+
       <Link to="/" className="text-sm text-blue-600 hover:underline">← Back to search</Link>
       <h1 className="text-3xl font-bold mt-4 mb-2">{paper.title}</h1>
       <p className="text-sm text-gray-600 mb-4">{paper.authors?.map(a => a.name).join(', ')}</p>
@@ -53,8 +69,9 @@ const PaperDetail: React.FC = () => {
         <p><strong>Source:</strong> {paper.source}</p>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 flex gap-4">
         <a className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" href={paper.doi ? `https://doi.org/${paper.doi}` : '#'} target="_blank" rel="noreferrer">Open DOI</a>
+        <a className="inline-block px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50" href={`http://localhost:3000/api/v1/papers/${encodeURIComponent(paper.id)}/rdf`} target="_blank">Export RDF</a>
       </div>
     </div>
   )

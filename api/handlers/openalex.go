@@ -183,3 +183,56 @@ func (h *OpenAlexHandler) SearchPapers(c fiber.Ctx) error {
 
 	return c.JSON(result)
 }
+
+// GetPaperRDF serves paper metadata in RDF/XML format
+func (h *OpenAlexHandler) GetPaperRDF(c fiber.Ctx) error {
+	id := c.Params("id")
+	// Reuse existing logic to decode ID
+	if un, err := urlpkg.PathUnescape(id); err == nil {
+		id = un
+	}
+	if strings.HasPrefix(id, "http://") || strings.HasPrefix(id, "https://") {
+		if u, err := urlpkg.Parse(id); err == nil {
+			id = path.Base(u.Path)
+		}
+	}
+
+	apiURL := fmt.Sprintf("%s/works/%s", h.baseURL, id)
+	resp, err := http.Get(apiURL)
+	if err != nil {
+		return c.Status(500).SendString("Failed to fetch from OpenAlex")
+	}
+	defer resp.Body.Close()
+
+	var paper OpenAlexWork
+	if err := json.NewDecoder(resp.Body).Decode(&paper); err != nil {
+		return c.Status(500).SendString("Failed to decode response")
+	}
+
+	// Generate simple RDF/XML
+	rdf := fmt.Sprintf(`<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/">
+  <rdf:Description rdf:about="%s">
+    <dc:title>%s</dc:title>
+    <dc:identifier>%s</dc:identifier>
+    <dc:source>OpenAlex</dc:source>
+    <dc:date>2025</dc:date>
+`, paper.ID, paper.Title, paper.DOI)
+
+	for _, author := range paper.Authors {
+		rdf += fmt.Sprintf(`    <dc:creator>
+      <foaf:Person>
+        <foaf:name>%s</foaf:name>
+      </foaf:Person>
+    </dc:creator>
+`, author.Author.DisplayName)
+	}
+
+	rdf += `  </rdf:Description>
+</rdf:RDF>`
+
+	c.Set("Content-Type", "application/rdf+xml")
+	return c.SendString(rdf)
+}
