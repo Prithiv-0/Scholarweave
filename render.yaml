@@ -1,0 +1,22 @@
+databases:
+  - name: scholarweave-db
+    plan: free
+    databaseName: scholarweave
+
+services:
+  - type: web
+    name: scholarweave-api
+    runtime: docker
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: scholarweave-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_ORIGIN
+        value: https://scholarweave-api.onrender.com
+      # Set PORT so Fiber listens correctly on typical Docker env
+      - key: PORT
+        value: 3000

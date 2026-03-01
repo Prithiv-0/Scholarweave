@@ -1,36 +1,33 @@
 package services
 
 import (
-	"Scholarweave/internal/models"
 	"strings"
+
+	"Scholarweave/internal/models"
 )
 
-type SearchService struct {
-	// Will add cache and other dependencies later
-}
+type SearchService struct{}
 
 func NewSearchService() *SearchService {
 	return &SearchService{}
 }
 
-// Update NormalizePaperData to handle different sources
+// NormalizePaperData cleans and normalizes paper fields.
 func (s *SearchService) NormalizePaperData(paper *models.Paper) error {
 	paper.Title = strings.TrimSpace(paper.Title)
 	paper.Abstract = strings.TrimSpace(paper.Abstract)
+	paper.PublicationDate = strings.TrimSpace(paper.PublicationDate)
+	paper.Type = strings.TrimSpace(paper.Type)
 
 	// Normalize source names
 	switch paper.Source {
 	case "openalex":
 		paper.Source = "OpenAlex"
 	default:
-		paper.Source = "Unknown"
+		if paper.Source == "" {
+			paper.Source = "Unknown"
+		}
 	}
 
-	return nil
-}
-
-// EnrichMetadata adds additional metadata from other sources
-func (s *SearchService) EnrichMetadata(paper *models.Paper) error {
-	// TODO: Implement metadata enrichment
 	return nil
 }

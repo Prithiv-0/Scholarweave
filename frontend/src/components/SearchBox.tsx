@@ -27,6 +27,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ onSearch, loading = false 
           value={query}
           onChange={handleChange}
           placeholder="Search papers by title, author, or keywords..."
+          aria-label="Search papers by title, author, or keywords"
           className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           disabled={loading}
         />

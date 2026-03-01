@@ -47,7 +47,6 @@ The platform integrates with the [OpenAlex](https://openalex.org) API, a free an
 
 ### Upcoming Features
 
-- User authentication and personalized accounts
 - Save and organize favorite papers
 - Create custom reading lists and collections
 - Citation alerts and paper recommendations
@@ -60,7 +59,7 @@ The platform integrates with the [OpenAlex](https://openalex.org) API, a free an
 
 ## Architecture
 
-ScholarWeave follows a modern **microservices architecture** with clear separation between frontend and backend:
+ScholarWeave currently follows a modular **full-stack architecture** with clear separation between frontend and backend:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -115,6 +114,92 @@ ScholarWeave follows a modern **microservices architecture** with clear separati
 #### External APIs
 - **OpenAlex API**: Primary data source for scholarly papers
 - **API Documentation**: [OpenAlex Docs](https://docs.openalex.org)
+
+---
+
+## API Documentation
+
+### Base URL
+
+`http://localhost:3000/api/v1`
+
+### Endpoints
+
+#### `GET /health`
+Returns API health information.
+
+#### `GET /papers/search`
+Searches papers from OpenAlex with pagination, sorting, and filters.
+
+**Query parameters**
+- `q` (required): search query
+- `page` (optional, default `1`): page number
+- `per_page` (optional, default `10`, max `50`): items per page
+- `sort` (optional): `relevance` | `citations` | `date`
+- `from_year` (optional): lower publication year bound
+- `to_year` (optional): upper publication year bound
+- `type` (optional): publication type (for example `journal-article`)
+- `subject` (optional): subject keyword appended to search query
+
+**Response shape**
+```json
+{
+   "meta": {
+      "count": 12345,
+      "page": 1,
+      "per_page": 10,
+      "total_pages": 1235,
+      "sort": "relevance"
+   },
+   "results": [
+      {
+         "id": "https://openalex.org/W123",
+         "title": "Example paper",
+         "abstract": "...",
+         "doi": "https://doi.org/...",
+         "authors": [{ "name": "Author Name" }],
+         "cited_by_count": 42,
+         "source": "OpenAlex"
+      }
+   ]
+}
+```
+
+#### `GET /papers/:id`
+Returns a normalized paper object by OpenAlex work ID (or encoded OpenAlex URL).
+
+#### `GET /papers/:id/rdf`
+Returns RDF/XML metadata for a paper.
+
+#### `POST /auth/register`
+Creates a user account and returns a JWT token with user profile.
+
+#### `POST /auth/login`
+Authenticates user credentials and returns a JWT token with user profile.
+
+#### `GET /users/me`
+Returns the authenticated user's profile. Requires `Authorization: Bearer <token>`.
+
+#### `GET /users/me/favorites`
+Lists the authenticated user's saved favorite papers.
+
+#### `POST /users/me/favorites`
+Adds a paper to favorites.
+
+#### `DELETE /users/me/favorites/:paperId`
+Removes a paper from favorites.
+
+#### `GET /users/me/lists`
+Lists the authenticated user's reading lists.
+
+#### `POST /users/me/lists`
+Creates a reading list.
+
+#### `POST /users/me/lists/:listId/items`
+Adds a paper to a reading list.
+
+#### `DELETE /users/me/lists/:listId/items/:paperId`
+Removes a paper from a reading list.
 
 ---
 
@@ -189,6 +274,20 @@ Open your browser and navigate to:
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:3000
 - **API Health Check**: http://localhost:3000/api/v1/health
+
+---
+
+## Deployment to Render
+
+ScholarWeave is optimized for deployment on Render using the included Web Service + PostgreSQL Database containerized workflow.
+
+1. Fork or push this repository to your own GitHub account.
+2. Log into [Render](https://render.com) and click **New > Blueprint**.
+3. Connect your GitHub repository to Render.
+4. Render will read the `render.yaml` blueprint and automatically create:
+   - A PostgreSQL database (`scholarweave-db`)
+   - A Docker web service (`scholarweave-api`)
+5. The deployment process will automatically build the React frontend, compile the Go backend, run database migrations, and start the unified server.
 
 ---
 
@@ -279,16 +378,16 @@ When reporting issues, please include:
 - [x] Health monitoring
 
 ### Phase 2: Enhanced Search
-- [ ] Advanced search filters (date range, publication type, subject area)
-- [ ] Sort by relevance, citations, date
-- [ ] Pagination for large result sets
+- [x] Advanced search filters (date range, publication type, subject area)
+- [x] Sort by relevance, citations, date
+- [x] Pagination for large result sets
 - [ ] Search suggestions and autocomplete
 
 ### Phase 3: User Features
-- [ ] User authentication (JWT)
-- [ ] User profiles
-- [ ] Save favorite papers
-- [ ] Create reading lists
+- [x] User authentication (JWT)
+- [x] User profiles
+- [x] Save favorite papers
+- [x] Create reading lists
 - [ ] Share collections
 
 ### Phase 4: Data & Analytics
